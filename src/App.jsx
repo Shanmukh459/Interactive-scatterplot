@@ -1,4 +1,4 @@
-import { csv, scaleLinear, extent } from "d3";
+import { csv, scaleLinear, extent, format } from "d3";
 import { useData } from "./useData";
 import { Marks } from "./Marks";
 import { AxisBottom } from "./AxisBottom";
@@ -14,8 +14,8 @@ const margin = {
   left: 80,
 };
 
-const xAxisLabelOffset = 40
-const yAxisLabelOffset = 50
+const xAxisLabelOffset = 50
+const yAxisLabelOffset = 45
 
 function App() {
   const data = useData();
@@ -32,6 +32,9 @@ function App() {
 
   const yValue = (d) => d.sepal_width;
   const yAxisLabel = "Sepal Width"
+
+  const siFormat = format("0.2s")
+  const xAxisTickFormat = (tickValue) => siFormat(tickValue)
 
   const xScale = scaleLinear()
     .domain(extent(data, xValue))
@@ -50,6 +53,7 @@ function App() {
           innerHeight={innerHeight}
         />
         <text
+          className="axis-label"
           x={innerWidth/2}
           y={innerHeight+ xAxisLabelOffset}
           textAnchor="middle"
@@ -59,6 +63,7 @@ function App() {
           innerWidth={innerWidth}
         />
         <text
+          className="axis-label"
           transform={`translate(${-yAxisLabelOffset}, ${innerHeight/2}) rotate(-90)`}
           textAnchor="middle"
         >{yAxisLabel}</text>
@@ -68,6 +73,7 @@ function App() {
           xValue={xValue}
           yScale={yScale}
           yValue={yValue} 
+          tooltipFormat={xAxisTickFormat}
         />
       </g>
     </svg>
