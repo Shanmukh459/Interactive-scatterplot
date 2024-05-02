@@ -10,9 +10,12 @@ const height = 500;
 const margin = {
   top: 20,
   right: 20,
-  bottom: 20,
-  left: 40,
+  bottom: 80,
+  left: 80,
 };
+
+const xAxisLabelOffset = 40
+const yAxisLabelOffset = 50
 
 function App() {
   const data = useData();
@@ -25,7 +28,10 @@ function App() {
   const innerHeight = height - margin.top - margin.bottom;
 
   const xValue = (d) => d.petal_length;
+  const xAxisLabel = "Petal Length"
+
   const yValue = (d) => d.sepal_width;
+  const yAxisLabel = "Sepal Width"
 
   const xScale = scaleLinear()
     .domain(extent(data, xValue))
@@ -43,10 +49,19 @@ function App() {
           xScale={xScale}
           innerHeight={innerHeight}
         />
+        <text
+          x={innerWidth/2}
+          y={innerHeight+ xAxisLabelOffset}
+          textAnchor="middle"
+        >{xAxisLabel}</text>
         <AxisLeft 
           yScale={yScale}
           innerWidth={innerWidth}
         />
+        <text
+          transform={`translate(${-yAxisLabelOffset}, ${innerHeight/2}) rotate(-90)`}
+          textAnchor="middle"
+        >{yAxisLabel}</text>
         <Marks 
           data={data}
           xScale={xScale}
