@@ -13,3 +13,6 @@
 - React
 
 ## Snippet 
+
+https://github.com/Shanmukh459/Interactive-scatterplot/assets/52078988/1a643593-6d2d-4b17-8325-937c79bf085e
+
