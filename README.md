@@ -14,8 +14,7 @@
 
 ## Snippet 
 
-[Watch the implementation](https://github.com/Shanmukh459/Interactive-scatterplot/assets/52078988/5301dba1-f85d-4327-83f1-68f19f8c659b)
+https://github.com/Shanmukh459/Interactive-scatterplot/assets/52078988/1e0c3754-9969-4621-a231-1799f9e28a84
 
 
-
-
+Happy Coding!
