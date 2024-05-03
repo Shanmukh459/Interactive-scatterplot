@@ -1,4 +1,4 @@
-import { csv, scaleLinear, extent, format } from "d3";
+import { csv, scaleLinear, extent, format, scaleOrdinal } from "d3";
 import { useData } from "./useData";
 import { Marks } from "./Marks";
 import { AxisBottom } from "./AxisBottom";
@@ -9,7 +9,7 @@ const height = 500;
 
 const margin = {
   top: 20,
-  right: 20,
+  right: 180,
   bottom: 80,
   left: 80,
 };
@@ -33,6 +33,8 @@ function App() {
   const yValue = (d) => d.sepal_width;
   const yAxisLabel = "Sepal Width"
 
+  const colorValue = d => d.species
+
   const siFormat = format("0.2s")
   const xAxisTickFormat = (tickValue) => siFormat(tickValue)
 
@@ -44,6 +46,10 @@ function App() {
   const yScale = scaleLinear()
     .domain(extent(data, yValue))
     .range([0, innerHeight])
+
+  const colorScale = scaleOrdinal()
+    .domain(data.map(colorValue))
+    .range(['#E6842A', '#137880', '#8E6C8A'])
 
   return (
     <svg height={height} width={width}>
@@ -67,6 +73,34 @@ function App() {
           transform={`translate(${-yAxisLabelOffset}, ${innerHeight/2}) rotate(-90)`}
           textAnchor="middle"
         >{yAxisLabel}</text>
+        <g
+          transform={`translate(${innerWidth+20}, 70)`}
+        >
+          <text
+            x={5}
+            y={-25}
+            className="axis-label"
+          >
+            Species
+          </text>
+          {
+            colorScale.domain().map((domainValue, i) => (
+              <g 
+                key={domainValue}
+                transform={`translate(20, ${i*20})`}
+              >
+                <circle
+                  r={5}
+                  fill={colorScale(domainValue)}
+                ></circle>
+                <text
+                  x={15}
+                  dy='0.32em'
+                >{domainValue}</text>
+              </g>
+            ))
+          }
+        </g>
         <Marks 
           data={data}
           xScale={xScale}
