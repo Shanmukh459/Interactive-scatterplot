@@ -1,8 +1,15 @@
-# React + Vite
+# Interactive Scatter plot using D3 and React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- This project is a plot of the famous Iris dataset
+- Data: [United Nations World Population Prospects 2019](https://gist.github.com/Shanmukh459/b5d83c8b7334616ceb7d9bfba7ffeb24).
+- The main features of this plot is that there is a color legend for each species.
+- The legend is made in such a way that it is interactive
+- Upon hovering over a certain species in the legend the points related to that species are highlighted
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech used
+
+- D3
+- React
+
+## Snippet 
