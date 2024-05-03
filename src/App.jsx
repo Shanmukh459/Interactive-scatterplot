@@ -4,6 +4,7 @@ import { Marks } from "./Marks";
 import { AxisBottom } from "./AxisBottom";
 import { AxisLeft } from "./AxisLeft";
 import { ColorLegend } from "./ColorLegend";
+import { useState } from "react";
 
 const width = 960;
 const height = 500;
@@ -18,8 +19,11 @@ const margin = {
 const xAxisLabelOffset = 50
 const yAxisLabelOffset = 45
 
+const fadeOpacity = 0.2
+
 function App() {
   const data = useData();
+  const [hoveredValue, setHoveredValue] = useState(null)
 
   if (!data) {
     return <h1>Loading...</h1>;
@@ -35,8 +39,11 @@ function App() {
   const yAxisLabel = "Sepal Width"
 
   const colorValue = d => d.species
+  const colorLegendLabel = "Species"
 
   const circleRadius = 5
+
+  const filteredData = data.filter(d => colorValue(d) === hoveredValue)
 
   const siFormat = format("0.2s")
   const xAxisTickFormat = (tickValue) => siFormat(tickValue)
@@ -53,10 +60,6 @@ function App() {
   const colorScale = scaleOrdinal()
     .domain(data.map(colorValue))
     .range(['#E6842A', '#137880', '#8E6C8A'])
-
-  const onHover = (domainValue) => {
-    console.log(domainValue)
-  }
 
   return (
     <svg height={height} width={width}>
@@ -89,22 +92,39 @@ function App() {
             className="axis-label"
             textAnchor="middle"
           >
-            Species
+            {colorLegendLabel}
           </text>
           <ColorLegend 
             colorScale={colorScale}
             tickSpacing={20}
             tickTextOffset={15}
-            onHover={onHover}
             tickSize={circleRadius}
+            onHover={setHoveredValue}
+            hoveredValue={hoveredValue}
+            fadeOpacity={fadeOpacity}
+          />
+        </g>
+        <g opacity={hoveredValue ? fadeOpacity : "1"}>
+          <Marks 
+            data={data}
+            xScale={xScale}
+            xValue={xValue}
+            yScale={yScale}
+            yValue={yValue} 
+            colorScale={colorScale}
+            colorValue={colorValue}
+            tooltipFormat={xAxisTickFormat}
+            circleRadius={circleRadius}
           />
         </g>
         <Marks 
-          data={data}
+          data={filteredData}
           xScale={xScale}
           xValue={xValue}
           yScale={yScale}
           yValue={yValue} 
+          colorScale={colorScale}
+          colorValue={colorValue}
           tooltipFormat={xAxisTickFormat}
           circleRadius={circleRadius}
         />
