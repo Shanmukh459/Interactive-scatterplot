@@ -3,6 +3,7 @@ import { useData } from "./useData";
 import { Marks } from "./Marks";
 import { AxisBottom } from "./AxisBottom";
 import { AxisLeft } from "./AxisLeft";
+import { ColorLegend } from "./ColorLegend";
 
 const width = 960;
 const height = 500;
@@ -35,6 +36,8 @@ function App() {
 
   const colorValue = d => d.species
 
+  const circleRadius = 5
+
   const siFormat = format("0.2s")
   const xAxisTickFormat = (tickValue) => siFormat(tickValue)
 
@@ -50,6 +53,10 @@ function App() {
   const colorScale = scaleOrdinal()
     .domain(data.map(colorValue))
     .range(['#E6842A', '#137880', '#8E6C8A'])
+
+  const onHover = (domainValue) => {
+    console.log(domainValue)
+  }
 
   return (
     <svg height={height} width={width}>
@@ -74,32 +81,23 @@ function App() {
           textAnchor="middle"
         >{yAxisLabel}</text>
         <g
-          transform={`translate(${innerWidth+20}, 70)`}
+          transform={`translate(${innerWidth+50}, 70)`}
         >
           <text
-            x={5}
+            x={35}
             y={-25}
             className="axis-label"
+            textAnchor="middle"
           >
             Species
           </text>
-          {
-            colorScale.domain().map((domainValue, i) => (
-              <g 
-                key={domainValue}
-                transform={`translate(20, ${i*20})`}
-              >
-                <circle
-                  r={5}
-                  fill={colorScale(domainValue)}
-                ></circle>
-                <text
-                  x={15}
-                  dy='0.32em'
-                >{domainValue}</text>
-              </g>
-            ))
-          }
+          <ColorLegend 
+            colorScale={colorScale}
+            tickSpacing={20}
+            tickTextOffset={15}
+            onHover={onHover}
+            tickSize={circleRadius}
+          />
         </g>
         <Marks 
           data={data}
@@ -108,6 +106,7 @@ function App() {
           yScale={yScale}
           yValue={yValue} 
           tooltipFormat={xAxisTickFormat}
+          circleRadius={circleRadius}
         />
       </g>
     </svg>
